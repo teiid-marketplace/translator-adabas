@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="adabasdb" version="1">
+	<model name="nwdoc">
+		<source name="local" translator-name="adabas" connection-jndi-name="java:/adabasDS"/>
+	</model>
+</vdb>
