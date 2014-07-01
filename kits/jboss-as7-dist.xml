@@ -23,7 +23,7 @@
   
   <dependencySets>
     <dependencySet>
-      <outputDirectory>/modules/system/layers/base/org/jboss/teiid/translator/Adabas/main</outputDirectory>
+      <outputDirectory>/modules/system/layers/base/org/jboss/teiid/translator/adabas/main</outputDirectory>
       <useTransitiveDependencies>false</useTransitiveDependencies>
       <!-- to exclude dependencies 
       <includes>

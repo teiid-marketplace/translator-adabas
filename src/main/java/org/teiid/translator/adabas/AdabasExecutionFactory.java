@@ -23,8 +23,10 @@
 package org.teiid.translator.adabas;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.teiid.language.Function;
 import org.teiid.translator.SourceSystemFunctions;
 import org.teiid.translator.Translator;
 import org.teiid.translator.TranslatorException;
@@ -33,16 +35,17 @@ import org.teiid.translator.jdbc.ConvertModifier;
 import org.teiid.translator.jdbc.FunctionModifier;
 import org.teiid.translator.jdbc.JDBCExecutionFactory;
 
-@Translator(name="abadas", description="Adabas Translator")
+@Translator(name="adabas", description="Adabas Translator")
 public class AdabasExecutionFactory extends JDBCExecutionFactory {
 
     private static final String ADABAS = "adabas"; //$NON-NLS-1$
 	
     @Override
     public void start() throws TranslatorException {
-        ConvertModifier convertModifier = new ConvertModifier();
+        AdabasConvertModifier convertModifier = new AdabasConvertModifier();
         convertModifier.addTypeMapping("integer", FunctionModifier.INTEGER); //$NON-NLS-1$
-        convertModifier.addTypeMapping("bigint", FunctionModifier.BIGINTEGER); //$NON-NLS-1$
+        convertModifier.addTypeMapping("long", FunctionModifier.LONG); //$NON-NLS-1$
+        convertModifier.addTypeMapping("bigint", FunctionModifier.LONG); //$NON-NLS-1$
         convertModifier.addTypeMapping("smallint", FunctionModifier.SHORT); //$NON-NLS-1$
         convertModifier.addTypeMapping("tinyint", FunctionModifier.BYTE); //$NON-NLS-1$
         convertModifier.addTypeMapping("date", FunctionModifier.DATE); //$NON-NLS-1$
@@ -52,6 +55,16 @@ public class AdabasExecutionFactory extends JDBCExecutionFactory {
         convertModifier.addTypeMapping("float", FunctionModifier.FLOAT); //$NON-NLS-1$
         convertModifier.addTypeMapping("decimal", FunctionModifier.BIGDECIMAL); //$NON-NLS-1$
         convertModifier.addTypeMapping("varchar", FunctionModifier.STRING); //$NON-NLS-1$
+        convertModifier.addTypeMapping("char(1)", FunctionModifier.CHAR); //$NON-NLS-1$
+        
+        convertModifier.addConvert(FunctionModifier.BYTE, FunctionModifier.STRING, new CastModifier("char(3)"));  //$NON-NLS-1$
+        convertModifier.addConvert(FunctionModifier.SHORT, FunctionModifier.STRING, new CastModifier("char(3)"));  //$NON-NLS-1$
+        convertModifier.addConvert(FunctionModifier.INTEGER, FunctionModifier.STRING, new CastModifier("char(15)"));  //$NON-NLS-1$
+        convertModifier.addConvert(FunctionModifier.LONG, FunctionModifier.STRING, new CastModifier("char(15)"));  //$NON-NLS-1$
+        convertModifier.addConvert(FunctionModifier.DOUBLE, FunctionModifier.STRING, new CastModifier("char(30)"));  //$NON-NLS-1$
+        convertModifier.addConvert(FunctionModifier.FLOAT, FunctionModifier.STRING, new CastModifier("char(30)"));  //$NON-NLS-1$
+        convertModifier.addConvert(FunctionModifier.BIGINTEGER, FunctionModifier.STRING, new CastModifier("char(50)"));  //$NON-NLS-1$
+        convertModifier.addConvert(FunctionModifier.BIGDECIMAL, FunctionModifier.STRING, new CastModifier("char(50)"));  //$NON-NLS-1$
 
         registerFunctionModifier(SourceSystemFunctions.CONVERT, convertModifier);
         
@@ -71,6 +84,25 @@ public class AdabasExecutionFactory extends JDBCExecutionFactory {
         addPushDownFunction(ADABAS, "DIFFERENCE", TypeFacility.RUNTIME_NAMES.INTEGER, TypeFacility.RUNTIME_NAMES.STRING, TypeFacility.RUNTIME_NAMES.STRING); //$NON-NLS-1$
     }
 
+    public static class AdabasConvertModifier extends ConvertModifier {
+        @Override
+        public List<?> translate(Function function) {
+            List values = super.translate(function);
+            function.setName("convert"); //$NON-NLS-1$
+            return values;
+        }        
+    }
+    
+    public static class CastModifier extends FunctionModifier {
+        private String target;
+        public CastModifier(String target) {
+            this.target = target;
+        }
+        @Override
+        public List<?> translate(Function function) {
+            return Arrays.asList("convert(", function.getParameters().get(0), ", "+this.target+")");    //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        }
+    }    
 
     @Override
     public boolean supportsDependentJoins() {
@@ -117,6 +149,7 @@ public class AdabasExecutionFactory extends JDBCExecutionFactory {
         supportedFunctions.add(SourceSystemFunctions.RTRIM);
         supportedFunctions.add(SourceSystemFunctions.SUBSTRING);
         supportedFunctions.add(SourceSystemFunctions.UCASE);
+        supportedFunctions.add(SourceSystemFunctions.CONVERT);
         
         // date functions
         supportedFunctions.add(SourceSystemFunctions.CURDATE);
