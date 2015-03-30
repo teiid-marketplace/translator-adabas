@@ -42,6 +42,7 @@ public class AdabasExecutionFactory extends JDBCExecutionFactory {
 	
     @Override
     public void start() throws TranslatorException {
+        super.start();
         AdabasConvertModifier convertModifier = new AdabasConvertModifier();
         convertModifier.addTypeMapping("integer", FunctionModifier.INTEGER); //$NON-NLS-1$
         convertModifier.addTypeMapping("long", FunctionModifier.LONG); //$NON-NLS-1$
