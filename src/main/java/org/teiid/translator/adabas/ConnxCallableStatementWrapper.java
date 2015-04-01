@@ -16,6 +16,8 @@ public class ConnxCallableStatementWrapper implements CallableStatement {
     this.realStatement = realStatement;
   }
 
+  //TODO use the calendar instance after delegating the method to implement the expected behaviour
+
   //CONNX does not support this method
   public Date getDate(int parameterIndex, Calendar cal) throws SQLException {
     return realStatement.getDate(parameterIndex);

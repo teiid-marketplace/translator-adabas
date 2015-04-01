@@ -16,6 +16,8 @@ public class ConnxResultSetWrapper implements ResultSet {
     this.realResultSet = realResultSet;
   }
 
+  //TODO use the calendar instance after delegating the method to implement the expected behaviour
+
   // CONNX does not support this method
   public Date getDate(int columnIndex, Calendar cal) throws SQLException {
     return realResultSet.getDate(columnIndex);
