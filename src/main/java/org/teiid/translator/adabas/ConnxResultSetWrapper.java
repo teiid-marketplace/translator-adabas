@@ -16,36 +16,40 @@ public class ConnxResultSetWrapper implements ResultSet {
     this.realResultSet = realResultSet;
   }
 
-  //TODO use the calendar instance after delegating the method to implement the expected behaviour
-
   // CONNX does not support this method
   public Date getDate(int columnIndex, Calendar cal) throws SQLException {
-    return realResultSet.getDate(columnIndex);
+    Date value = getDate(columnIndex);
+    return CalendarHelper.adjustDate(cal, value);
   }
 
   // CONNX does not support this method
   public Date getDate(String columnLabel, Calendar cal) throws SQLException {
-    return realResultSet.getDate(columnLabel);
+    Date value = getDate(columnLabel);
+    return CalendarHelper.adjustDate(cal, value);
   }
 
   // CONNX does not support this method
   public Time getTime(int columnIndex, Calendar cal) throws SQLException {
-    return realResultSet.getTime(columnIndex);
+    Time value = getTime(columnIndex);
+    return CalendarHelper.adjustTime(cal, value);
   }
 
   // CONNX does not support this method
   public Time getTime(String columnLabel, Calendar cal) throws SQLException {
-    return realResultSet.getTime(columnLabel);
+    Time value = getTime(columnLabel);
+    return CalendarHelper.adjustTime(cal, value);
   }
 
   // CONNX does not support this method
   public Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException {
-    return realResultSet.getTimestamp(columnIndex);
+    Timestamp value = getTimestamp(columnIndex);
+    return CalendarHelper.adjustTimestamp(cal, value);
   }
 
   // CONNX does not support this method
   public Timestamp getTimestamp(String columnLabel, Calendar cal) throws SQLException {
-    return realResultSet.getTimestamp(columnLabel);
+    Timestamp value = getTimestamp(columnLabel);
+    return CalendarHelper.adjustTimestamp(cal, value);
   }
 
   public boolean next() throws SQLException {
