@@ -22,6 +22,9 @@
 
 package org.teiid.translator.adabas;
 
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -199,5 +202,25 @@ public class AdabasExecutionFactory extends JDBCExecutionFactory {
         supportedFunctions.add(SourceSystemFunctions.COALESCE);
         
         return supportedFunctions;
-    }    
+    }
+
+    /*
+    * Since CONNX does not support some methods of JDBC API, we need to wrap the
+    * object to provide some alternatives so the query can run without problems.
+    *
+    * The problem is on get methods that takes a Calendar and all set methods.
+    * They all throws exceptions saying that the method is not supported.
+    *
+    * Note that these wrappers only solves the get methods.
+    */
+
+    @Override
+    public Object retrieveValue(ResultSet results, int columnIndex, Class<?> expectedType) throws SQLException {
+        return super.retrieveValue(new ConnxResultSetWrapper(results), columnIndex, expectedType);
+    }
+
+    @Override
+    public Object retrieveValue(CallableStatement results, int parameterIndex, Class<?> expectedType) throws SQLException {
+        return super.retrieveValue(new ConnxCallableStatementWrapper(results), parameterIndex, expectedType);
+    }
 }
