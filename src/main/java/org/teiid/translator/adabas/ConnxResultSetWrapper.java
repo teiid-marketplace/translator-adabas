@@ -16,6 +16,36 @@ public class ConnxResultSetWrapper implements ResultSet {
     this.realResultSet = realResultSet;
   }
 
+  // CONNX does not support this method
+  public Date getDate(int columnIndex, Calendar cal) throws SQLException {
+    return realResultSet.getDate(columnIndex);
+  }
+
+  // CONNX does not support this method
+  public Date getDate(String columnLabel, Calendar cal) throws SQLException {
+    return realResultSet.getDate(columnLabel);
+  }
+
+  // CONNX does not support this method
+  public Time getTime(int columnIndex, Calendar cal) throws SQLException {
+    return realResultSet.getTime(columnIndex);
+  }
+
+  // CONNX does not support this method
+  public Time getTime(String columnLabel, Calendar cal) throws SQLException {
+    return realResultSet.getTime(columnLabel);
+  }
+
+  // CONNX does not support this method
+  public Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException {
+    return realResultSet.getTimestamp(columnIndex);
+  }
+
+  // CONNX does not support this method
+  public Timestamp getTimestamp(String columnLabel, Calendar cal) throws SQLException {
+    return realResultSet.getTimestamp(columnLabel);
+  }
+
   public boolean next() throws SQLException {
     return realResultSet.next();
   }
@@ -506,36 +536,6 @@ public class ConnxResultSetWrapper implements ResultSet {
 
   public Array getArray(String columnLabel) throws SQLException {
     return realResultSet.getArray(columnLabel);
-  }
-
-  // CONNX does not support this method
-  public Date getDate(int columnIndex, Calendar cal) throws SQLException {
-    return realResultSet.getDate(columnIndex);
-  }
-
-  // CONNX does not support this method
-  public Date getDate(String columnLabel, Calendar cal) throws SQLException {
-    return realResultSet.getDate(columnLabel);
-  }
-
-  // CONNX does not support this method
-  public Time getTime(int columnIndex, Calendar cal) throws SQLException {
-    return realResultSet.getTime(columnIndex);
-  }
-
-  // CONNX does not support this method
-  public Time getTime(String columnLabel, Calendar cal) throws SQLException {
-    return realResultSet.getTime(columnLabel);
-  }
-
-  // CONNX does not support this method
-  public Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException {
-    return realResultSet.getTimestamp(columnIndex);
-  }
-
-  // CONNX does not support this method
-  public Timestamp getTimestamp(String columnLabel, Calendar cal) throws SQLException {
-    return realResultSet.getTimestamp(columnLabel);
   }
 
   public URL getURL(int columnIndex) throws SQLException {

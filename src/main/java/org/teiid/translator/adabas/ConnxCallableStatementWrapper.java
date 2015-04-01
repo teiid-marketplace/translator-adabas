@@ -16,6 +16,36 @@ public class ConnxCallableStatementWrapper implements CallableStatement {
     this.realStatement = realStatement;
   }
 
+  //CONNX does not support this method
+  public Date getDate(int parameterIndex, Calendar cal) throws SQLException {
+    return realStatement.getDate(parameterIndex);
+  }
+
+  //CONNX does not support this method
+  public Time getTime(int parameterIndex, Calendar cal) throws SQLException {
+    return realStatement.getTime(parameterIndex);
+  }
+
+  //CONNX does not support this method
+  public Timestamp getTimestamp(int parameterIndex, Calendar cal) throws SQLException {
+    return realStatement.getTimestamp(parameterIndex);
+  }
+
+  //CONNX does not support this method
+  public Date getDate(String parameterName, Calendar cal) throws SQLException {
+    return realStatement.getDate(parameterName);
+  }
+
+  //CONNX does not support this method
+  public Time getTime(String parameterName, Calendar cal) throws SQLException {
+    return realStatement.getTime(parameterName);
+  }
+
+  //CONNX does not support this method
+  public Timestamp getTimestamp(String parameterName, Calendar cal) throws SQLException {
+    return realStatement.getTimestamp(parameterName);
+  }
+
   public void registerOutParameter(int parameterIndex, int sqlType) throws SQLException {
     realStatement.registerOutParameter(parameterIndex, sqlType);
   }
@@ -106,21 +136,6 @@ public class ConnxCallableStatementWrapper implements CallableStatement {
 
   public Array getArray(int parameterIndex) throws SQLException {
     return realStatement.getArray(parameterIndex);
-  }
-
-  //CONNX does not support this method
-  public Date getDate(int parameterIndex, Calendar cal) throws SQLException {
-    return realStatement.getDate(parameterIndex);
-  }
-
-  //CONNX does not support this method
-  public Time getTime(int parameterIndex, Calendar cal) throws SQLException {
-    return realStatement.getTime(parameterIndex);
-  }
-
-  //CONNX does not support this method
-  public Timestamp getTimestamp(int parameterIndex, Calendar cal) throws SQLException {
-    return realStatement.getTimestamp(parameterIndex);
   }
 
   public void registerOutParameter(int parameterIndex, int sqlType, String typeName) throws SQLException {
@@ -317,21 +332,6 @@ public class ConnxCallableStatementWrapper implements CallableStatement {
 
   public Array getArray(String parameterName) throws SQLException {
     return realStatement.getArray(parameterName);
-  }
-
-  //CONNX does not support this method
-  public Date getDate(String parameterName, Calendar cal) throws SQLException {
-    return realStatement.getDate(parameterName);
-  }
-
-  //CONNX does not support this method
-  public Time getTime(String parameterName, Calendar cal) throws SQLException {
-    return realStatement.getTime(parameterName);
-  }
-
-  //CONNX does not support this method
-  public Timestamp getTimestamp(String parameterName, Calendar cal) throws SQLException {
-    return realStatement.getTimestamp(parameterName);
   }
 
   public URL getURL(String parameterName) throws SQLException {
